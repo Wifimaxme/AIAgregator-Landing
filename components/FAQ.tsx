@@ -1,25 +1,8 @@
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-
-const questions = [
-  {
-    q: "Нужно ли мне разбираться в технологиях?",
-    a: "Нет, абсолютно. AI Key создан для обычных людей. Вы просто пишете задачу своими словами, как в мессенджере, а мы делаем остальное."
-  },
-  {
-    q: "Это безопасно? Где хранятся мои данные?",
-    a: "Мы используем шифрование банковского уровня. Ваши диалоги не используются для обучения публичных моделей. Вы можете удалить историю в любой момент."
-  },
-  {
-    q: "Работает ли это на телефоне?",
-    a: "Да, у нас есть удобная мобильная версия сайта, которая работает как приложение. Просто добавьте иконку на главный экран."
-  },
-  {
-    q: "Что произойдет после 7 дней?",
-    a: "Мы напомним вам за день до окончания пробного периода. Если вам понравится, подписка продлится автоматически. Если нет — просто отмените в один клик."
-  }
-];
+import { faqData } from '../data/content';
 
 export const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -37,7 +20,7 @@ export const FAQ: React.FC = () => {
         </motion.h2>
         
         <div className="space-y-4">
-          {questions.map((item, index) => (
+          {faqData.map((item, index) => (
             <motion.div 
               key={index}
               initial={{ opacity: 0, y: 20 }}

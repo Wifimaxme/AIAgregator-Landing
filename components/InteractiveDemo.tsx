@@ -1,25 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Sparkles, Mic } from 'lucide-react';
 import { AILogo } from './ui/AILogo';
-
-const demos = [
-  {
-    label: "Письмо начальнику",
-    prompt: "Напиши письмо начальнику, что я опаздываю на час из-за пробки, но на связи.",
-    response: "Тема: Задержка — буду в офисе через час\n\nДобрый день!\n\nЗадерживаюсь примерно на час из-за сильных пробок. Я на связи в мессенджерах и по телефону, рабочие задачи уже решаю удаленно. К 11:00 буду на месте.\n\nСпасибо за понимание."
-  },
-  {
-    label: "Идея для поста",
-    prompt: "Придумай 3 темы для поста про пользу утренней зарядки.",
-    response: "1. «Энергия вместо кофе»: как 5 минут зарядки заменяют эспрессо.\n2. Личный опыт: что изменилось в моей жизни за месяц приседаний по утрам.\n3. 3 простых упражнения, которые можно делать прямо в пижаме."
-  },
-  {
-    label: "Сложное - просто",
-    prompt: "Объясни, что такое блокчейн пятилетнему ребенку.",
-    response: "Представь, что мы строим башню из кубиков Lego. Каждый новый кубик намертво приклеивается к предыдущему. На каждом кубике написано, кто кому дал конфету. Если кто-то захочет подменить старый кубик и соврать про конфеты, башня развалится, и все это увидят. Это и есть блокчейн — цепочка, которую нельзя изменить тайком."
-  }
-];
+import { demoData } from '../data/content';
+import { trackEvent } from '../utils/analytics';
 
 export const InteractiveDemo: React.FC = () => {
   const [activeDemo, setActiveDemo] = useState(0);
@@ -33,12 +18,13 @@ export const InteractiveDemo: React.FC = () => {
     setText("");
     setShowResponse(false);
     setIsTyping(true);
+    trackEvent('Demo', 'Select Scenario', demoData[index].label);
   };
 
   // Typing effect for prompt
   useEffect(() => {
     if (isTyping) {
-      const targetText = demos[activeDemo].prompt;
+      const targetText = demoData[activeDemo].prompt;
       let currentIndex = 0;
       const interval = setInterval(() => {
         if (currentIndex <= targetText.length) {
@@ -57,8 +43,11 @@ export const InteractiveDemo: React.FC = () => {
 
   return (
     <section id="demo" className="py-24 bg-slate-950 relative overflow-hidden">
-      {/* Decorative blob */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-900/20 rounded-full blur-[100px] pointer-events-none" />
+      {/* Decorative blob with REDUCED intensity and SLOWER animation */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-brand-900/10 to-accent-900/10 bg-[length:200%_200%] animate-aurora rounded-full blur-[80px] pointer-events-none" 
+        style={{ animationDuration: '30s' }}
+      />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -72,27 +61,45 @@ export const InteractiveDemo: React.FC = () => {
           <p className="text-slate-400 text-lg">Выберите задачу — посмотрите, как AI Key справляется за секунды.</p>
         </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-10"
-        >
-          {demos.map((demo, index) => (
-            <button
-              key={index}
-              onClick={() => handleSelectDemo(index)}
-              className={`px-4 py-2 rounded-full border text-sm font-medium transition-all ${
-                activeDemo === index 
-                  ? 'bg-brand-500 border-brand-500 text-white' 
-                  : 'bg-transparent border-slate-700 text-slate-400 hover:border-brand-500 hover:text-white'
-              }`}
-            >
-              {demo.label}
-            </button>
-          ))}
-        </motion.div>
+        {/* Improved Tab Navigation with Smooth Animation */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {demoData.map((demo, index) => {
+            const isActive = activeDemo === index;
+            return (
+              <button
+                key={index}
+                onClick={() => handleSelectDemo(index)}
+                className="relative px-6 py-3 rounded-full text-sm font-bold focus:outline-none"
+                style={{ WebkitTapHighlightColor: "transparent" }}
+              >
+                {/* Active Background (Framer Motion) */}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeDemoTab"
+                    className="absolute inset-0 bg-brand-600 rounded-full shadow-lg shadow-brand-500/20"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                
+                {/* Inactive Background (CSS Transition) */}
+                <div 
+                   className={`absolute inset-0 rounded-full border border-slate-700 bg-slate-800/50 transition-opacity duration-300 ${
+                     isActive ? "opacity-0" : "opacity-100 hover:border-slate-500"
+                   }`} 
+                />
+
+                {/* Text Label */}
+                <span 
+                  className={`relative z-10 transition-colors duration-200 ${
+                    isActive ? "text-white" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  {demo.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
         {/* Chat Window */}
         <motion.div 
@@ -103,10 +110,11 @@ export const InteractiveDemo: React.FC = () => {
             if (!hasStarted) {
               setHasStarted(true);
               setIsTyping(true);
+              trackEvent('Demo', 'Auto Start', 'Viewport Enter');
             }
           }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="max-w-3xl mx-auto bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden min-h-[400px] flex flex-col"
+          className="max-w-3xl mx-auto bg-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-800 shadow-2xl overflow-hidden min-h-[400px] flex flex-col"
         >
           {/* Header */}
           <div className="bg-slate-800/50 px-6 py-4 border-b border-slate-700 flex items-center gap-3">
@@ -178,7 +186,7 @@ export const InteractiveDemo: React.FC = () => {
                       AI Key Ответ
                     </div>
                     <div className="whitespace-pre-wrap leading-relaxed text-sm md:text-base">
-                      {demos[activeDemo].response}
+                      {demoData[activeDemo].response}
                     </div>
                  </motion.div>
               ) : (

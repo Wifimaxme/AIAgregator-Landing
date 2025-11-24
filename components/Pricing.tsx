@@ -1,61 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Zap, Infinity as InfinityIcon } from 'lucide-react';
+import { pricingPlans } from '../data/content';
+import { trackEvent } from '../utils/analytics';
 
-const plans = [
-  {
-    name: "Пробный",
-    price: "0₽",
-    period: "/ 7 дней",
-    description: "Идеально для знакомства. Доступ ко всем функциям на неделю.",
-    features: [
-      "Доступ ко всем нейросетям",
-      "Обычный режим чата",
-      "Голосовой ввод",
-      "Работа без VPN",
-      "Поддержка 24/7"
-    ],
-    highlight: false,
-    buttonText: "Попробовать бесплатно"
-  },
-  {
-    name: "Базовый",
-    price: "300₽",
-    period: "/ месяц",
-    description: "Для повседневных задач и переписки.",
-    features: [
-      "Базовый пакет токенов",
-      "Токены не сгорают (копятся)",
-      "Обычный режим чата",
-      "Голосовой ввод",
-      "Работа без VPN"
-    ],
-    highlight: false,
-    buttonText: "Выбрать Базовый"
-  },
-  {
-    name: "Про",
-    price: "1800₽",
-    period: "/ месяц",
-    description: "Максимальная мощь для профессионалов.",
-    features: [
-      "Проактивный режим",
-      "Увеличенный пакет токенов",
-      "Токены не сгорают (копятся)",
-      "Приоритетная генерация",
-      "Работа с файлами и фото",
-      "Персональная поддержка"
-    ],
-    highlight: true,
-    buttonText: "Выбрать Про"
-  }
-];
+interface PricingProps {
+  onOpenAuth: () => void;
+}
 
-export const Pricing: React.FC = () => {
+export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
+  const handlePlanClick = (planName: string) => {
+    trackEvent('Pricing', 'Select Plan', planName);
+    onOpenAuth();
+  };
+
   return (
     <section id="pricing" className="py-24 bg-gradient-to-b from-slate-950 to-slate-900 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-brand-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-gradient-to-br from-brand-900/10 to-accent-900/10 bg-[length:200%_200%] animate-aurora rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4">
         <motion.div 
@@ -71,7 +33,7 @@ export const Pricing: React.FC = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start relative z-10">
-          {plans.map((plan, index) => (
+          {pricingPlans.map((plan, index) => (
             <motion.div 
               key={index}
               initial={{ opacity: 0, y: 40 }}
@@ -82,13 +44,13 @@ export const Pricing: React.FC = () => {
             >
                {/* Glow effect for Highlighted Plan */}
                {plan.highlight && (
-                 <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-accent-600 rounded-3xl blur opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+                 <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-accent-600 bg-[length:200%_200%] animate-aurora rounded-3xl blur opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
                )}
                
                <div className={`relative h-full bg-slate-950 rounded-2xl border p-8 flex flex-col ${plan.highlight ? 'border-brand-500/50 shadow-2xl' : 'border-slate-800 shadow-lg'}`}>
                  
                  {plan.highlight && (
-                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-brand-500 to-accent-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg flex items-center gap-1">
+                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-brand-500 to-accent-600 bg-[length:200%_200%] animate-aurora text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg flex items-center gap-1">
                      <Zap className="w-3 h-3 fill-current" />
                      ХИТ ПРОДАЖ
                    </div>
@@ -122,7 +84,9 @@ export const Pricing: React.FC = () => {
                    ))}
                  </ul>
 
-                 <button className={`w-full font-bold text-lg py-3 rounded-xl transition-all duration-300 ${
+                 <button 
+                   onClick={() => handlePlanClick(plan.name)}
+                   className={`w-full font-bold text-lg py-3 rounded-xl transition-all duration-300 ${
                    plan.highlight 
                     ? 'bg-white text-slate-900 hover:bg-brand-50 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] hover:scale-105' 
                     : 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-700'

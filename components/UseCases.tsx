@@ -1,39 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, Home, GraduationCap, Laptop, ArrowRight } from 'lucide-react';
-
-const categories = [
-  { id: 'work', label: 'Работа', icon: Briefcase },
-  { id: 'freelance', label: 'Фриланс', icon: Laptop },
-  { id: 'study', label: 'Учёба', icon: GraduationCap },
-  { id: 'home', label: 'Дом', icon: Home },
-];
-
-const cases = {
-  work: [
-    { title: "Письмо клиенту", desc: "Написать вежливый отказ или холодное предложение без воды." },
-    { title: "Резюме отчёта", desc: "Сжать 20 страниц PDF в 10 ключевых выводов за секунду." },
-    { title: "Презентация", desc: "Создать структуру слайдов для квартального отчёта." }
-  ],
-  freelance: [
-    { title: "Генерация идей", desc: "Придумать 10 тем для постов в Instagram за 1 минуту." },
-    { title: "Код-ревью", desc: "Найти ошибку в коде или объяснить сложную функцию." },
-    { title: "Перевод", desc: "Адаптировать статью с английского, сохранив терминологию." }
-  ],
-  study: [
-    { title: "Объяснение тем", desc: "«Объясни квантовую физику как будто мне 10 лет»." },
-    { title: "План курсовой", desc: "Составить структуру работы и список литературы." },
-    { title: "Проверка грамматики", desc: "Найти ошибки в эссе перед сдачей." }
-  ],
-  home: [
-    { title: "План поездки", desc: "Маршрут на 3 дня в Сочи с детьми и бюджетом 50к." },
-    { title: "Рецепты", desc: "«Что приготовить из курицы, картошки и сливок?»" },
-    { title: "Заявления", desc: "Написать жалобу в УК на холодные батареи в официальном стиле." }
-  ]
-};
+import { ArrowRight } from 'lucide-react';
+import { useCasesCategories, useCasesData } from '../data/content';
+import { trackEvent } from '../utils/analytics';
 
 export const UseCases: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<keyof typeof cases>('work');
+  const [activeTab, setActiveTab] = useState<keyof typeof useCasesData>('work');
+
+  const handleTabChange = (id: string) => {
+    setActiveTab(id as keyof typeof useCasesData);
+    trackEvent('UseCases', 'Switch Tab', id);
+  };
 
   return (
     <section id="use-cases" className="py-24 relative overflow-hidden">
@@ -70,10 +47,10 @@ export const UseCases: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-2 mb-12"
         >
-          {categories.map((cat) => (
+          {useCasesCategories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setActiveTab(cat.id as keyof typeof cases)}
+              onClick={() => handleTabChange(cat.id)}
               className={`relative flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                 activeTab === cat.id 
                   ? 'bg-white text-slate-950 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] scale-105 z-10' 
@@ -100,7 +77,7 @@ export const UseCases: React.FC = () => {
               key={activeTab}
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
-              {cases[activeTab].map((item, idx) => (
+              {useCasesData[activeTab].map((item, idx) => (
                 <motion.div 
                   key={item.title} 
                   initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -110,8 +87,8 @@ export const UseCases: React.FC = () => {
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className="bg-slate-950/80 backdrop-blur-md border border-slate-800 p-8 rounded-2xl hover:border-brand-500/50 transition-colors group relative overflow-hidden flex flex-col"
                 >
-                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-                     <div className="w-20 h-20 rounded-full bg-brand-500 blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity duration-500">
+                     <div className="w-20 h-20 rounded-full bg-gradient-to-r from-brand-500 to-accent-500 blur-2xl group-hover:scale-150 transition-transform duration-700 animate-aurora"></div>
                   </div>
                   
                   <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-brand-400 font-bold mb-6 group-hover:scale-110 group-hover:bg-brand-500/10 transition-all duration-300">

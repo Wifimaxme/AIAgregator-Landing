@@ -1,8 +1,14 @@
+
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, PlayCircle } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onOpenAuth: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onOpenAuth }) => {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -16,18 +22,29 @@ export const Hero: React.FC = () => {
   const yText = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
   const yMockup = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
+  const handleCtaClick = () => {
+    trackEvent('Hero', 'Click CTA', 'Start Trial');
+    onOpenAuth();
+  };
+
+  const handleDemoScroll = () => {
+    trackEvent('Hero', 'Click Link', 'How it Works');
+    document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center pt-20 z-20">
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center pt-20">
       
-      {/* Background Gradient Spots Container - Handles overflow to prevent scrollbars */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Background Gradient Spots Container - Removed overflow-hidden to allow glow to bleed into next section */}
+      <div className="absolute inset-0 pointer-events-none">
         <motion.div 
           style={{ y: yBg1 }}
-          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-brand-500/20 rounded-full blur-[120px]" 
+          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[120px] bg-gradient-to-r from-brand-500/30 to-accent-500/30 bg-[length:400%_400%] animate-aurora mix-blend-screen" 
         />
+        {/* Changed colors to Blue/Indigo to be distinct from the top-left Brand/Accent spot */}
         <motion.div 
           style={{ y: yBg2 }}
-          className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-accent-600/20 rounded-full blur-[120px]" 
+          className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full blur-[120px] bg-gradient-to-l from-blue-600/30 to-indigo-600/30 bg-[length:400%_400%] animate-aurora mix-blend-screen" 
         />
       </div>
 
@@ -41,11 +58,6 @@ export const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/50 border border-slate-700 backdrop-blur-sm mb-8">
-              <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-              <span className="text-xs md:text-sm font-medium text-slate-300">Доступен новый режим: "Проактивный помощник"</span>
-            </div>
-
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
               Личный AI-помощник,<br className="hidden md:block" /> 
               который работает за вас
@@ -56,21 +68,28 @@ export const Hero: React.FC = () => {
               Мы автоматически подбираем лучшую нейросеть под ваш запрос — без VPN и сложных настроек.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-full font-bold text-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_30px_-5px_rgba(20,184,166,0.4)]"
-              >
-                Попробовать бесплатно 7 дней
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              {/* Primary CTA with Enhanced Glow */}
+              <div className="relative group w-full sm:w-auto">
+                {/* Animated Gradient Glow Layer */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-brand-400 via-accent-500 to-brand-400 bg-[length:200%_200%] animate-aurora rounded-full blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleCtaClick}
+                  className="relative w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-full font-bold text-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(20,184,166,0.3)] border border-brand-400/50"
+                >
+                  Попробовать бесплатно 7 дней
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </div>
               
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-full sm:w-auto px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-white border border-slate-700 rounded-full font-medium text-lg transition-colors flex items-center justify-center gap-2 backdrop-blur-sm"
+                onClick={handleDemoScroll}
+                className="w-full sm:w-auto px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-white border border-slate-700 hover:border-slate-500 rounded-full font-medium text-lg transition-colors flex items-center justify-center gap-2 backdrop-blur-sm shadow-lg"
               >
                 <PlayCircle className="w-5 h-5" />
                 Как это работает
@@ -124,8 +143,8 @@ export const Hero: React.FC = () => {
                     </div>
                 </div>
             </div>
-            {/* Gradient glow under mockup - positioned to not be clipped */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-purple-600 rounded-2xl blur opacity-20 -z-10"></div>
+            {/* Gradient glow under mockup */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-accent-600 rounded-2xl blur-xl opacity-20 -z-10 animate-aurora bg-[length:200%_200%]"></div>
           </motion.div>
         </motion.div>
 

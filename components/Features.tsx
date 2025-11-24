@@ -1,37 +1,7 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BrainCircuit, Zap, MessageSquareText, Layers } from 'lucide-react';
-
-const features = [
-  {
-    icon: BrainCircuit,
-    title: "Агрегатор лучших моделей",
-    description: "Вам не нужно выбирать между GPT-4, Claude или Gemini. AI Key сам подберет идеальную нейросеть под конкретную задачу.",
-    color: "text-blue-400",
-    delay: 0
-  },
-  {
-    icon: Zap,
-    title: "Проактивная помощь",
-    description: "Работает там, где вы. Умный ассистент в браузере помогает писать письма, посты и комментарии без переключения вкладок.",
-    color: "text-yellow-400",
-    delay: 0.1
-  },
-  {
-    icon: MessageSquareText,
-    title: "Привычный чат",
-    description: "Нужен совет или идея? Общайтесь с AI как с другом в удобном интерфейсе. Голосовой ввод, картинки и файлы поддерживаются.",
-    color: "text-green-400",
-    delay: 0.2
-  },
-  {
-    icon: Layers,
-    title: "Локальная безопасность",
-    description: "Базовые задачи обрабатываются быстро и безопасно. Ваши данные под контролем, без необходимости использовать VPN.",
-    color: "text-purple-400",
-    delay: 0.3
-  }
-];
+import { featuresData } from '../data/content';
 
 export const Features: React.FC = () => {
   return (
@@ -55,7 +25,7 @@ export const Features: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
+          {featuresData.map((feature, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}

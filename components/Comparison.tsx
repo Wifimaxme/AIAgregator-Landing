@@ -1,40 +1,9 @@
+
 import React, { useState } from 'react';
 import { Check, X, HelpCircle, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AILogo } from './ui/AILogo';
-
-const comparisonData = [
-  {
-    title: "Проактивный режим",
-    tooltip: "Интеллектуальный ассистент работает поверх браузера. Помогает писать письма, посты и комментарии, не переключая вкладки.",
-    standard: false,
-    aiKey: true
-  },
-  {
-    title: "Оплата картой РФ",
-    tooltip: "Не нужно искать зарубежные карты, посредников или разбираться с криптовалютой. Принимаем любые карты российских банков.",
-    standard: false,
-    aiKey: true
-  },
-  {
-    title: "Все нейросети в одной цене",
-    tooltip: "Вместо того чтобы платить $20/мес отдельно за GPT-4, Claude и Midjourney (итого ~$60+), вы получаете доступ ко всем сразу в одной подписке.",
-    standard: false,
-    aiKey: true
-  },
-  {
-    title: "Авто-подбор модели",
-    tooltip: "Вам не нужно думать, какую модель выбрать. AI Key сам определит, кто лучше справится: Claude с текстом или GPT-4 с кодом.",
-    standard: false,
-    aiKey: true
-  },
-  {
-    title: "Голос, фото и файлы",
-    tooltip: "Записывайте голосовые на бегу, кидайте фото документов или PDF-отчеты — мы распознаем и проанализируем всё.",
-    standard: true, // Частично есть у других, но отметим как true для честности, или false если считаем это киллер-фичей
-    aiKey: true
-  }
-];
+import { comparisonData } from '../data/content';
 
 export const Comparison: React.FC = () => {
   // State to track which tooltip is active on mobile or hover

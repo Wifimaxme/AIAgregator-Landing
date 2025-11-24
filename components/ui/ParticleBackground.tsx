@@ -86,7 +86,8 @@ export const ParticleBackground: React.FC = () => {
         this.density = (Math.random() * 30) + 1;
         this.angle = Math.random() * 360;
         
-        const colors = ['rgba(45, 212, 191, 0.5)', 'rgba(94, 234, 212, 0.3)', 'rgba(255, 255, 255, 0.2)'];
+        // Colors updated to Purple/Violet spectrum to match new brand
+        const colors = ['rgba(139, 92, 246, 0.5)', 'rgba(196, 181, 253, 0.3)', 'rgba(255, 255, 255, 0.2)'];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
@@ -242,7 +243,8 @@ export const ParticleBackground: React.FC = () => {
 
           if(distance < connectDistance) {
             const opacity = 1 - (distance / connectDistance);
-            ctx.strokeStyle = `rgba(45, 212, 191, ${opacity * 0.2})`;
+            // Updated to Violet RGB for connections
+            ctx.strokeStyle = `rgba(139, 92, 246, ${opacity * 0.2})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);

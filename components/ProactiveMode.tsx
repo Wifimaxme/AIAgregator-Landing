@@ -10,8 +10,8 @@ export const ProactiveMode: React.FC = () => {
     <section className="py-24 bg-slate-950 relative overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-brand-900/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent-900/10 rounded-full blur-[100px]" />
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-gradient-to-br from-brand-900/20 to-accent-900/20 bg-[length:200%_200%] animate-aurora rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-accent-900/20 to-brand-900/20 bg-[length:200%_200%] animate-aurora rounded-full blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -170,21 +170,6 @@ export const ProactiveMode: React.FC = () => {
                    transition={{ delay: 0.5, type: "spring", bounce: 0.4 }}
                    className="absolute bottom-6 right-6 w-64 z-20"
                  >
-                    {/* Shimmering Border/Glow Effect */}
-                    <motion.div
-                      className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-brand-400 via-accent-500 to-brand-400 opacity-75 blur-[2px]"
-                      animate={{
-                        backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                        opacity: isApplied ? 0 : 0.75 // Hide glow when applied
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                      style={{ backgroundSize: "200% 200%" }}
-                    />
-                    
                     {/* Content Card */}
                     <div className="relative bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl p-4">
                       <div className="flex items-start gap-3">
@@ -199,34 +184,52 @@ export const ProactiveMode: React.FC = () => {
                                  : "Кажется, вы пишете отказ клиенту. Хотите сделать его более мягким и сохранить отношения?"
                                }
                             </p>
-                            <button 
-                              onClick={() => setIsApplied(true)}
-                              disabled={isApplied}
-                              className={`w-full text-xs font-bold py-2 rounded-lg transition-all flex items-center justify-center gap-1 ${
-                                isApplied 
-                                ? 'bg-brand-500 text-white cursor-default'
-                                : 'bg-white text-slate-900 hover:bg-brand-50 hover:scale-[1.02]'
-                              }`}
-                            >
-                               {isApplied ? (
-                                 <>
-                                   Готово
-                                   <Check className="w-3 h-3" />
-                                 </>
-                               ) : (
-                                 <>
-                                   Применить
-                                   <ArrowRight className="w-3 h-3" />
-                                 </>
-                               )}
-                            </button>
+                            <div className="relative">
+                              {!isApplied && (
+                                <motion.div
+                                  className="absolute -inset-1 rounded-lg bg-gradient-to-r from-brand-400 via-accent-500 to-brand-400 opacity-50 blur-sm"
+                                  animate={{
+                                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                                  }}
+                                  transition={{
+                                    duration: 3,
+                                    repeat: Infinity,
+                                    ease: "linear"
+                                  }}
+                                  style={{ backgroundSize: "200% 200%" }}
+                                />
+                              )}
+                              <button 
+                                onClick={() => setIsApplied(true)}
+                                disabled={isApplied}
+                                className={`relative z-10 w-full text-xs font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 overflow-hidden ${
+                                  isApplied 
+                                  ? 'bg-slate-800 text-green-400 border border-green-500/30 cursor-default'
+                                  : 'bg-gradient-to-r from-brand-500 to-accent-600 text-white shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 hover:scale-[1.02] border border-white/10 group'
+                                }`}
+                              >
+                                 {isApplied ? (
+                                   <>
+                                     Готово
+                                     <Check className="w-3 h-3" />
+                                   </>
+                                 ) : (
+                                   <>
+                                     Применить
+                                     <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                                     {/* Shine effect on button */}
+                                     <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-20"></div>
+                                   </>
+                                 )}
+                              </button>
+                            </div>
                          </div>
                       </div>
                     </div>
                  </motion.div>
 
                  {/* Glow behind popup */}
-                 <div className="absolute bottom-6 right-6 w-64 h-32 bg-brand-500/20 blur-[50px] pointer-events-none z-10" />
+                 <div className="absolute bottom-6 right-6 w-64 h-32 bg-gradient-to-r from-brand-500/30 to-accent-500/30 bg-[length:200%_200%] animate-aurora blur-[50px] pointer-events-none z-10" />
 
               </motion.div>
 
