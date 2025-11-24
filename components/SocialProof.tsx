@@ -42,7 +42,7 @@ export const SocialProof: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-slate-900 overflow-hidden relative">
+    <section className="py-24 bg-slate-950/20 overflow-hidden relative">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
       
       <div className="container mx-auto px-4">
@@ -126,7 +126,7 @@ export const SocialProof: React.FC = () => {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
               whileHover={{ y: -5 }}
-              className="bg-slate-950 p-8 rounded-2xl border border-slate-800 shadow-lg group hover:border-slate-700 transition-colors"
+              className="bg-slate-950/80 backdrop-blur-md p-8 rounded-2xl border border-slate-800 shadow-lg group hover:border-slate-700 transition-colors"
             >
               <div className="flex items-center gap-1 mb-4">
                 {[1,2,3,4,5].map(star => (

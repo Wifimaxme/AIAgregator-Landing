@@ -10,7 +10,7 @@ export const Comparison: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-24 bg-slate-950 relative z-20">
+    <section className="py-24 bg-transparent relative z-20">
       <div className="container mx-auto px-4 max-w-4xl">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
@@ -26,10 +26,10 @@ export const Comparison: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="bg-slate-900/50 rounded-2xl border border-slate-800 relative"
+          className="bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-800 relative"
         >
           {/* Header */}
-          <div className="grid grid-cols-3 p-6 border-b border-slate-800 bg-slate-900 rounded-t-2xl">
+          <div className="grid grid-cols-3 p-6 border-b border-slate-800 bg-slate-900/80 rounded-t-2xl">
             <div className="text-slate-500 font-medium text-sm md:text-base flex items-center">Функция</div>
             <div className="text-center text-slate-500 font-medium text-sm md:text-base flex items-center justify-center">Обычный AI</div>
             <div className="text-center text-brand-400 font-bold text-lg md:text-xl flex items-center justify-center gap-2">

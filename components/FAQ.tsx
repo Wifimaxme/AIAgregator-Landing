@@ -8,7 +8,7 @@ export const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-24 bg-slate-950">
+    <section className="py-24 bg-transparent">
       <div className="container mx-auto px-4 max-w-3xl">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export const FAQ: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: index * 0.1 }}
-              className="border border-slate-800 rounded-xl bg-slate-900/30 overflow-hidden"
+              className="border border-slate-800 rounded-xl bg-slate-900/60 backdrop-blur-sm overflow-hidden"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}

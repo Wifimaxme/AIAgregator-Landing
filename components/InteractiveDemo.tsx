@@ -42,7 +42,7 @@ export const InteractiveDemo: React.FC = () => {
   }, [isTyping, activeDemo]);
 
   return (
-    <section id="demo" className="py-24 bg-slate-950 relative overflow-hidden">
+    <section id="demo" className="py-24 bg-transparent relative overflow-hidden">
       {/* Decorative blob with REDUCED intensity and SLOWER animation */}
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-brand-900/10 to-accent-900/10 bg-[length:200%_200%] animate-aurora rounded-full blur-[80px] pointer-events-none" 

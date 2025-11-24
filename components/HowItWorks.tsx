@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -5,7 +6,7 @@ import { howItWorksSteps } from '../data/content';
 
 export const HowItWorks: React.FC = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-slate-950 border-t border-slate-900 relative overflow-hidden">
+    <section id="how-it-works" className="py-24 bg-slate-950/30 border-t border-slate-900 relative overflow-hidden">
        {/* Background accent with shimmer */}
        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-gradient-to-r from-brand-900/20 to-accent-900/20 bg-[length:200%_200%] animate-aurora blur-[100px] rounded-full pointer-events-none"></div>
 

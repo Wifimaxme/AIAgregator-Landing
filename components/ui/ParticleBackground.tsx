@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 
 export const ParticleBackground: React.FC = () => {
@@ -207,7 +208,8 @@ export const ParticleBackground: React.FC = () => {
 
     const initParticles = () => {
       particles = [];
-      const numberOfParticles = (width * height) / 12000; 
+      // Increased density: Changed divisor from 12000 to 4000
+      const numberOfParticles = (width * height) / 4000; 
       for (let i = 0; i < numberOfParticles; i++) {
         const x = Math.random() * width;
         const y = Math.random() * height;

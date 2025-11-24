@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Monitor, Layers, ArrowRight, Check } from 'lucide-react';
@@ -7,7 +8,7 @@ export const ProactiveMode: React.FC = () => {
   const [isApplied, setIsApplied] = useState(false);
 
   return (
-    <section className="py-24 bg-slate-950 relative overflow-hidden">
+    <section className="py-24 bg-transparent relative overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-gradient-to-br from-brand-900/20 to-accent-900/20 bg-[length:200%_200%] animate-aurora rounded-full blur-[120px]" />

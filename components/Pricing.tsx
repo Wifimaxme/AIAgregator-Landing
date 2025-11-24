@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Zap, Infinity as InfinityIcon } from 'lucide-react';
@@ -15,7 +16,7 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
   };
 
   return (
-    <section id="pricing" className="py-24 bg-gradient-to-b from-slate-950 to-slate-900 relative overflow-hidden">
+    <section id="pricing" className="py-24 bg-slate-950/40 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-gradient-to-br from-brand-900/10 to-accent-900/10 bg-[length:200%_200%] animate-aurora rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -47,7 +48,7 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-accent-600 bg-[length:200%_200%] animate-aurora rounded-3xl blur opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
                )}
                
-               <div className={`relative h-full bg-slate-950 rounded-2xl border p-8 flex flex-col ${plan.highlight ? 'border-brand-500/50 shadow-2xl' : 'border-slate-800 shadow-lg'}`}>
+               <div className={`relative h-full bg-slate-950/90 backdrop-blur-xl rounded-2xl border p-8 flex flex-col ${plan.highlight ? 'border-brand-500/50 shadow-2xl' : 'border-slate-800 shadow-lg'}`}>
                  
                  {plan.highlight && (
                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-brand-500 to-accent-600 bg-[length:200%_200%] animate-aurora text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg flex items-center gap-1">
